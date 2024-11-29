@@ -71,7 +71,24 @@ io.on("connection",(socket)=>{
             })
             socket.emit("lista usuarios",enviar)
             console.log(enviar)
-        }else{
+        }else if(mensaje.toLowerCase().trim().indexOf('/p')==0){
+            usuarioElegido=null
+            partesMensaje=mensaje.split(' ')
+            usuarios.forEach((usuario)=>{
+                if(partesMensaje[1].trim()==usuario.nombre){
+                    usuarioElegido=usuario
+                }
+            })
+            if(usuarioElegido!=null){
+                partesMensaje.splice(0,2)
+                usuarioElegido.socket.emit("mensaje servidor",partesMensaje.join(" "))
+            }else{
+                socket.emit("mensaje servidor","No existe el usuario")
+            }
+            
+            console.log(enviar)
+        }
+        else{
             io.emit("mensaje servidor",`${elUsuario.nombre}> <font color='${elUsuario.color}'>${mensaje}</font>`)
             
             guardaMongo(mensaje,elUsuario)
