@@ -64,9 +64,16 @@ io.on("connection",(socket)=>{
             elUsuario.nombre=mensaje.trim().substr(5).trim()
             socket.broadcast.emit("servidor aviso",`${nombreAntiguo} ha cambiado el nombre a ${elUsuario.nombre}`)
             socket.emit("servidor aviso",`Has cambiado tu nombre a ${elUsuario.nombre}`)
+        }if(mensaje.toLowerCase().trim().indexOf('ver usuarios')==0){
+            enviar="";
+            usuarios.forEach((usuario)=>{
+                enviar+="<p>"+usuario.nombre+"</p>"
+            })
+            socket.emit("mensaje servidor",enviar)
+            console.log(enviar)
         }else{
             io.emit("mensaje servidor",`${elUsuario.nombre}> <font color='${elUsuario.color}'>${mensaje}</font>`)
-
+            
             guardaMongo(mensaje,elUsuario)
         }
 
