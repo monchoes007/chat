@@ -58,6 +58,17 @@
                 window.scrollTo(0,document.body.scrollHeight)
             })
 
+            socket.on("lista usuarios",(usuarios)=>{
+                var item = document.createElement('p')
+                poner="<b>Lista de usuarios</b><br><ul>"
+                usuarios.forEach((usuario)=>{
+                    poner+=`<li>${usuario}</li>`
+                })
+                poner+='</ul>'
+                item.innerHTML=poner
+                mensajes.appendChild(item)
+            })
+
             socket.on("conversaciones anteriores",(conversaciones)=>{
                 console.log(conversaciones)
                 conversaciones.forEach((conversacion)=>{
@@ -67,11 +78,7 @@
                     mensajes.appendChild(item)
                 
                 })
-                
-                
-                
-                
-                
+
                 window.scrollTo(0,document.body.scrollHeight)
             })
         </script>

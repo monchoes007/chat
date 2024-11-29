@@ -5,7 +5,7 @@ const http = require("http")
 const server = http.createServer(app)
 const {Server} = require("socket.io")
 const io = new Server(server)
-const puerto=6499
+const puerto=6498
 
 // conectamos con MongoDB
 const uri = "mongodb://localhost:27017";
@@ -64,12 +64,12 @@ io.on("connection",(socket)=>{
             elUsuario.nombre=mensaje.trim().substr(5).trim()
             socket.broadcast.emit("servidor aviso",`${nombreAntiguo} ha cambiado el nombre a ${elUsuario.nombre}`)
             socket.emit("servidor aviso",`Has cambiado tu nombre a ${elUsuario.nombre}`)
-        }if(mensaje.toLowerCase().trim().indexOf('ver usuarios')==0){
-            enviar="";
+        }else if(mensaje.toLowerCase().trim()=='ver usuarios'){
+            enviar=[];
             usuarios.forEach((usuario)=>{
-                enviar+="<p>"+usuario.nombre+"</p>"
+                enviar.push(usuario.nombre)
             })
-            socket.emit("mensaje servidor",enviar)
+            socket.emit("lista usuarios",enviar)
             console.log(enviar)
         }else{
             io.emit("mensaje servidor",`${elUsuario.nombre}> <font color='${elUsuario.color}'>${mensaje}</font>`)
