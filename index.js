@@ -59,7 +59,7 @@ io.on("connection",(socket)=>{
     })
 
     socket.on("mensaje cliente",(mensaje)=>{
-        if(mensaje.trim().indexOf('nick:')==0){
+        if(mensaje.toLowerCase().trim().indexOf('nick:')==0){
             let nombreAntiguo=elUsuario.nombre
             elUsuario.nombre=mensaje.trim().substr(5).trim()
             socket.broadcast.emit("servidor aviso",`${nombreAntiguo} ha cambiado el nombre a ${elUsuario.nombre}`)
@@ -128,5 +128,5 @@ function getRandomHexColor() {
 
     socket.emit("conversaciones anteriores",conversaciones)
 
-   console.log(conversaciones)
+   console.log(conversaciones) 
   }
